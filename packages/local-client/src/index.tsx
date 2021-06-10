@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import * as esbuild from "esbuild-wasm";
 import { unpkgPathPlugin } from "./plugins/unpkg-path-plugin";
 import { fetchPlugin } from "./plugins/fetch-plugin";
+import CodeEditor from "./components/code-editor";
 
 const App = () => {
   const iframe = useRef<HTMLIFrameElement>(null);
@@ -58,6 +59,7 @@ const App = () => {
 
   return (
     <div>
+      <CodeEditor />
       <textarea onChange={(e) => setInput(e.target.value)} value={input} />
       <button onClick={onClick}>Submit</button>
       <iframe
