@@ -32,11 +32,18 @@ const App = () => {
     setCode(result.outputFiles[0].text);
   };
 
+  const html = `
+    <script>
+      ${code}
+    </script>
+  `;
+
   return (
     <div>
       <textarea onChange={(e) => setInput(e.target.value)} value={input} />
       <button onClick={onClick}>Submit</button>
       <pre>{code}</pre>
+      <iframe sandbox="allow-scripts" srcDoc={html} title="Preview" />
     </div>
   );
 };
