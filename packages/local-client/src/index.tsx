@@ -5,9 +5,8 @@ import { unpkgPathPlugin } from "./plugins/unpkg-path-plugin";
 import { fetchPlugin } from "./plugins/fetch-plugin";
 
 const App = () => {
-  const iframe = useRef<any>();
+  const iframe = useRef<HTMLIFrameElement>(null);
   const [input, setInput] = useState("");
-  const [code, setCode] = useState("");
 
   const initialize = async () => {
     await esbuild.initialize({
@@ -20,6 +19,9 @@ const App = () => {
   }, []);
 
   const onClick = async () => {
+    if (iframe.current) {
+      iframe.current.srcdoc = html;
+    }
     const result = await esbuild.build({
       entryPoints: ["index.js"],
       bundle: true,
@@ -30,8 +32,8 @@ const App = () => {
         global: "window"
       }
     });
-    // setCode(result.outputFiles[0].text);
-    iframe.current.contentWindow.postMessage(result.outputFiles[0].text, "*");
+
+    iframe.current?.contentWindow?.postMessage(result.outputFiles[0].text, "*");
   };
 
   const html = `
@@ -58,7 +60,6 @@ const App = () => {
     <div>
       <textarea onChange={(e) => setInput(e.target.value)} value={input} />
       <button onClick={onClick}>Submit</button>
-      <pre>{code}</pre>
       <iframe
         ref={iframe}
         sandbox="allow-scripts"
