@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 import * as esbuild from "esbuild-wasm";
 import { unpkgPathPlugin } from "./plugins/unpkg-path-plugin";
 import { fetchPlugin } from "./plugins/fetch-plugin";
 
 const App = () => {
+  const iframe = useRef<any>();
   const [input, setInput] = useState("");
   const [code, setCode] = useState("");
 
@@ -29,13 +30,22 @@ const App = () => {
         global: "window"
       }
     });
-    setCode(result.outputFiles[0].text);
+    // setCode(result.outputFiles[0].text);
+    iframe.current.contentWindow.postMessage(result.outputFiles[0].text, "*");
   };
 
   const html = `
-    <script>
-      ${code}
-    </script>
+    <html>
+      <head></head>
+      <body>
+        <div id="root"></div>
+        <script>
+          window.addEventListener('message', (event) => {
+            eval(event.data);
+          }, false);
+        </script>
+      </body>
+    </html>
   `;
 
   return (
@@ -43,7 +53,12 @@ const App = () => {
       <textarea onChange={(e) => setInput(e.target.value)} value={input} />
       <button onClick={onClick}>Submit</button>
       <pre>{code}</pre>
-      <iframe sandbox="allow-scripts" srcDoc={html} title="Preview" />
+      <iframe
+        ref={iframe}
+        sandbox="allow-scripts"
+        srcDoc={html}
+        title="Preview"
+      />
     </div>
   );
 };
