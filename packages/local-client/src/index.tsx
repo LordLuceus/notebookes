@@ -1,11 +1,10 @@
 import "bulmaswatch/superhero/bulmaswatch.min.css";
+import * as esbuild from "esbuild-wasm";
 import { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-import * as esbuild from "esbuild-wasm";
-import { unpkgPathPlugin } from "./plugins/unpkg-path-plugin";
-import { fetchPlugin } from "./plugins/fetch-plugin";
 import CodeEditor from "./components/code-editor";
 import Preview from "./components/preview";
+import bundle from "./bundler";
 
 const App = () => {
   const [input, setInput] = useState("");
@@ -22,17 +21,8 @@ const App = () => {
   }, []);
 
   const onClick = async () => {
-    const result = await esbuild.build({
-      entryPoints: ["index.js"],
-      bundle: true,
-      write: false,
-      plugins: [unpkgPathPlugin(), fetchPlugin(input)],
-      define: {
-        "process.env.NODE_ENV": "'production'",
-        global: "window"
-      }
-    });
-    setCode(result.outputFiles[0].text);
+    const output = await bundle(input);
+    setCode(output);
   };
 
   const handleEditorChange = (value: string | undefined): void => {
