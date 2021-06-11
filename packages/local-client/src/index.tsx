@@ -1,14 +1,15 @@
 import "bulmaswatch/superhero/bulmaswatch.min.css";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import * as esbuild from "esbuild-wasm";
 import { unpkgPathPlugin } from "./plugins/unpkg-path-plugin";
 import { fetchPlugin } from "./plugins/fetch-plugin";
 import CodeEditor from "./components/code-editor";
+import Preview from "./components/preview";
 
 const App = () => {
-  const iframe = useRef<HTMLIFrameElement>(null);
   const [input, setInput] = useState("");
+  const [code, setCode] = useState("");
 
   const initialize = async () => {
     await esbuild.initialize({
@@ -21,9 +22,6 @@ const App = () => {
   }, []);
 
   const onClick = async () => {
-    if (iframe.current) {
-      iframe.current.srcdoc = html;
-    }
     const result = await esbuild.build({
       entryPoints: ["index.js"],
       bundle: true,
@@ -34,8 +32,7 @@ const App = () => {
         global: "window"
       }
     });
-
-    iframe.current?.contentWindow?.postMessage(result.outputFiles[0].text, "*");
+    setCode(result.outputFiles[0].text);
   };
 
   const handleEditorChange = (value: string | undefined): void => {
@@ -44,40 +41,14 @@ const App = () => {
     }
   };
 
-  const html = `
-    <html>
-      <head></head>
-      <body>
-        <div id="root"></div>
-        <script>
-          window.addEventListener('message', (event) => {
-            try {
-              eval(event.data);
-            } catch (err) {
-              const root = document.querySelector('#root');
-              root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + err + '</div>';
-              console.error(err);
-            }
-          }, false);
-        </script>
-      </body>
-    </html>
-  `;
-
   return (
     <div>
       <CodeEditor
         initialValue="// Welcome to NotebookES!"
         onChange={handleEditorChange}
       />
-      <textarea onChange={(e) => setInput(e.target.value)} value={input} />
       <button onClick={onClick}>Submit</button>
-      <iframe
-        ref={iframe}
-        sandbox="allow-scripts"
-        srcDoc={html}
-        title="Preview"
-      />
+      <Preview code={code} />
     </div>
   );
 };
