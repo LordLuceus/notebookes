@@ -1,5 +1,5 @@
 import "./code-editor.css";
-import MonacoEditor, { OnChange, OnMount } from "@monaco-editor/react";
+import Editor, { OnChange, OnMount } from "@monaco-editor/react";
 import { useRef } from "react";
 import prettier from "prettier";
 import parser from "prettier/parser-babel";
@@ -42,7 +42,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
       >
         Format
       </button>
-      <MonacoEditor
+      <Editor
         height="500px"
         language="javascript"
         theme="vs-dark"
