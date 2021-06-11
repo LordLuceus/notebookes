@@ -37,6 +37,12 @@ const App = () => {
     iframe.current?.contentWindow?.postMessage(result.outputFiles[0].text, "*");
   };
 
+  const handleEditorChange = (value: string | undefined): void => {
+    if (value) {
+      setInput(value);
+    }
+  };
+
   const html = `
     <html>
       <head></head>
@@ -59,7 +65,10 @@ const App = () => {
 
   return (
     <div>
-      <CodeEditor initialValue="// Welcome to NotebookES!" />
+      <CodeEditor
+        initialValue="// Welcome to NotebookES!"
+        onChange={handleEditorChange}
+      />
       <textarea onChange={(e) => setInput(e.target.value)} value={input} />
       <button onClick={onClick}>Submit</button>
       <iframe
