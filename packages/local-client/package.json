@@ -15,6 +15,7 @@
     "esbuild-wasm": "^0.12.6",
     "localforage": "^1.9.0",
     "monaco-editor": "^0.24.0",
+    "prettier": "^2.3.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
@@ -44,5 +45,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/prettier": "^2.3.0"
   }
 }
