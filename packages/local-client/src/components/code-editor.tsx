@@ -1,8 +1,8 @@
-import MonacoEditor from "@monaco-editor/react";
+import MonacoEditor, { OnChange } from "@monaco-editor/react";
 
 interface CodeEditorProps {
   initialValue: string;
-  onChange: (value: string | undefined) => void;
+  onChange: OnChange;
 }
 
 const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
