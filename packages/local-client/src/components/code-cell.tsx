@@ -1,17 +1,29 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import bundle from "../bundler";
 import CodeEditor from "./code-editor";
 import Preview from "./preview";
-import bundle from "../bundler";
 import Resizable from "./resizable";
 
 const CodeCell = () => {
   const [input, setInput] = useState("");
   const [code, setCode] = useState("");
+  const firstUpdate = useRef(true);
 
-  const onClick = async () => {
-    const output = await bundle(input);
-    setCode(output);
-  };
+  useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      const output = await bundle(input);
+      setCode(output);
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [input]);
 
   const handleEditorChange = (value: string | undefined): void => {
     if (value) {
