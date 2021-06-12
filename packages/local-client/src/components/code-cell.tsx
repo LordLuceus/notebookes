@@ -22,10 +22,12 @@ const CodeCell = () => {
   return (
     <Resizable direction="vertical">
       <div style={{ height: "100%", display: "flex", flexDirection: "row" }}>
-        <CodeEditor
-          initialValue="// Welcome to NotebookES!"
-          onChange={handleEditorChange}
-        />
+        <Resizable direction="horizontal">
+          <CodeEditor
+            initialValue="// Welcome to NotebookES!"
+            onChange={handleEditorChange}
+          />
+        </Resizable>
         <Preview code={code} />
       </div>
     </Resizable>
