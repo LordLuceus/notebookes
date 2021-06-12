@@ -21,12 +21,11 @@ const CodeCell = () => {
 
   return (
     <Resizable direction="vertical">
-      <div>
+      <div style={{ height: "100%", display: "flex", flexDirection: "row" }}>
         <CodeEditor
           initialValue="// Welcome to NotebookES!"
           onChange={handleEditorChange}
         />
-        <button onClick={onClick}>Submit</button>
         <Preview code={code} />
       </div>
     </Resizable>
