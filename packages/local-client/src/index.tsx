@@ -2,12 +2,12 @@ import "bulmaswatch/superhero/bulmaswatch.min.css";
 import * as esbuild from "esbuild-wasm";
 import { useEffect } from "react";
 import ReactDOM from "react-dom";
-import CodeCell from "./components/code-cell";
+import TextEditor from "./components/text-editor";
 
 const App = () => {
   const initialize = async () => {
     await esbuild.initialize({
-      wasmURL: "https://unpkg.com/esbuild-wasm@0.12.8/esbuild.wasm"
+      wasmURL: "https://unpkg.com/esbuild-wasm@0.12.8/esbuild.wasm",
     });
   };
 
@@ -17,7 +17,8 @@ const App = () => {
 
   return (
     <div>
-      <CodeCell />
+      {/* <CodeCell /> */}
+      <TextEditor />
     </div>
   );
 };
