@@ -32,6 +32,9 @@ const TextEditor: React.FC = () => {
     return (
       <div ref={ref} className="text-editor">
         <MDEditor value={value} onChange={(v) => setValue(v || "")} />
+        <button onClick={() => setEditing(false)} style={{ opacity: 0 }}>
+          Preview Mode
+        </button>
       </div>
     );
   }
