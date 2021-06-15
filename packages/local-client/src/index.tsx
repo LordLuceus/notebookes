@@ -3,7 +3,7 @@ import * as esbuild from "esbuild-wasm";
 import { useEffect } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import TextEditor from "./components/text-editor";
+import CellList from "./components/cell-list";
 import { store } from "./state";
 
 const App = () => {
@@ -20,8 +20,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <div>
-        {/* <CodeCell /> */}
-        <TextEditor />
+        <CellList />
       </div>
     </Provider>
   );
