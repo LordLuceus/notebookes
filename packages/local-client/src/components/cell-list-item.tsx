@@ -12,7 +12,7 @@ const CellListItem: React.FC<CellListItemProps> = ({ cell }) => {
   if (cell.type === "code") {
     child = (
       <>
-        <CodeCell />
+        <CodeCell cell={cell} />
       </>
     );
   } else {
