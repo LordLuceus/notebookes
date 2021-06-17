@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-import bundle from "../bundler";
+import { useEffect, useRef } from "react";
 import { useActions } from "../hooks/use-actions";
+import { useTypedSelector } from "../hooks/use-typed-selector";
 import { Cell } from "../state";
 import CodeEditor from "./code-editor";
 import Preview from "./preview";
@@ -11,9 +11,8 @@ interface CodeCellProps {
 }
 
 const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
-  const { updateCell } = useActions();
-  const [code, setCode] = useState("");
-  const [err, setErr] = useState("");
+  const { updateCell, createBundle } = useActions();
+  const bundle = useTypedSelector((state) => state.bundles[cell.id]);
   const firstUpdate = useRef(true);
 
   useEffect(() => {
@@ -23,15 +22,14 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
     }
 
     const timer = setTimeout(async () => {
-      const output = await bundle(cell.content);
-      setCode(output.code);
-      setErr(output.err);
+      createBundle(cell.id, cell.content);
     }, 500);
 
     return () => {
       clearTimeout(timer);
     };
-  }, [cell.content]);
+    // eslint-disable-next-line
+  }, [cell.content, cell.id]);
 
   const handleEditorChange = (value: string | undefined): void => {
     if (value) {
@@ -54,7 +52,7 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
             onChange={handleEditorChange}
           />
         </Resizable>
-        <Preview code={code} error={err} />
+        {bundle && <Preview code={bundle.code} error={bundle.err} />}
       </div>
     </Resizable>
   );

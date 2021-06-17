@@ -3,11 +3,13 @@ import { ActionType } from "../action-types";
 import { Action } from "../actions";
 
 interface BundleState {
-  [key: string]: {
-    processing: boolean;
-    code: string;
-    err: string;
-  };
+  [key: string]:
+    | {
+        processing: boolean;
+        code: string;
+        err: string;
+      }
+    | undefined;
 }
 
 const initialState: BundleState = {};
