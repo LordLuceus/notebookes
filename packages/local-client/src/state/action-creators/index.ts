@@ -1,4 +1,6 @@
-import { Dispatch } from "redux";
+import * as esbuild from "esbuild-wasm";
+import { ThunkAction } from "redux-thunk";
+import { RootState } from "..";
 import bundle from "../../bundler";
 import { ActionType } from "../action-types";
 import {
@@ -51,8 +53,21 @@ export const insertCellAfter = (
   };
 };
 
-export const createBundle = (cellId: string, input: string) => {
-  return async (dispatch: Dispatch<Action>) => {
+export const createBundle = (
+  cellId: string,
+  input: string
+): ThunkAction<void, RootState, unknown, Action> => {
+  return async (dispatch, getState) => {
+    const { bundles } = getState();
+
+    if (!bundles.initialised) {
+      await esbuild.initialize({
+        wasmURL: "https://unpkg.com/esbuild-wasm@0.12.8/esbuild.wasm",
+      });
+
+      dispatch({ type: ActionType.INITIALISE_BUNDLER });
+    }
+
     dispatch({ type: ActionType.BUNDLE_START, payload: { cellId } });
 
     const result = await bundle(input);

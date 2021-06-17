@@ -50,10 +50,15 @@ export interface BundleCompleteAction {
   };
 }
 
+export interface InitialiseBundlerAction {
+  type: ActionType.INITIALISE_BUNDLER;
+}
+
 export type Action =
   | InsertCellAfterAction
   | DeleteCellAction
   | UpdateCellAction
   | MoveCellAction
   | BundleStartAction
-  | BundleCompleteAction;
+  | BundleCompleteAction
+  | InitialiseBundlerAction;

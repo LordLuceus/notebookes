@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useActions } from "../hooks/use-actions";
 import { useTypedSelector } from "../hooks/use-typed-selector";
 import { Cell } from "../state";
@@ -12,15 +12,9 @@ interface CodeCellProps {
 
 const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
   const { updateCell, createBundle } = useActions();
-  const bundle = useTypedSelector((state) => state.bundles[cell.id]);
-  const firstUpdate = useRef(true);
+  const bundle = useTypedSelector((state) => state.bundles.bundle[cell.id]);
 
   useEffect(() => {
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-      return;
-    }
-
     const timer = setTimeout(async () => {
       createBundle(cell.id, cell.content);
     }, 500);
