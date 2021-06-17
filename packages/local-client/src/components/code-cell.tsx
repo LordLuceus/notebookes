@@ -28,8 +28,7 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
     return () => {
       clearTimeout(timer);
     };
-    // eslint-disable-next-line
-  }, [cell.content, cell.id]);
+  }, [cell.content, cell.id, createBundle]);
 
   const handleEditorChange = (value: string | undefined): void => {
     if (value) {
