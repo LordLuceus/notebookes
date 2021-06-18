@@ -2,6 +2,7 @@ import React from "react";
 import { useTypedSelector } from "../hooks/use-typed-selector";
 import AddCell from "./add-cell";
 import CellListItem from "./cell-list-item";
+import "./cell-list.css";
 
 const CellList = () => {
   const cells = useTypedSelector(({ cells: { order, data } }) =>
@@ -16,7 +17,7 @@ const CellList = () => {
   ));
 
   return (
-    <div>
+    <div className="cell-list">
       <AddCell previousCellId={null} forceVisible={cells.length === 0} />
       {renderedCells}
     </div>
