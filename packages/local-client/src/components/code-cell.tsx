@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useActions } from "../hooks/use-actions";
 import { useTypedSelector } from "../hooks/use-typed-selector";
 import { Cell } from "../state";
+import "./code-cell.css";
 import CodeEditor from "./code-editor";
 import Preview from "./preview";
 import Resizable from "./resizable";
@@ -51,7 +52,17 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
             onChange={handleEditorChange}
           />
         </Resizable>
-        {bundle && <Preview code={bundle.code} error={bundle.err} />}
+        <div className="progress-wrapper">
+          {!bundle || bundle.processing ? (
+            <div className="progress-cover">
+              <progress className="progress is-small is-primary" max="100">
+                Processing...
+              </progress>
+            </div>
+          ) : (
+            <Preview code={bundle.code} error={bundle.err} />
+          )}
+        </div>
       </div>
     </Resizable>
   );
