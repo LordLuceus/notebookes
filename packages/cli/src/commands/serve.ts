@@ -1,5 +1,6 @@
 import { Command } from "commander";
 import { serve } from "local-api";
+import open from "open";
 import path from "path";
 
 export const serveCommand = new Command()
@@ -10,7 +11,14 @@ export const serveCommand = new Command()
     try {
       const dir = path.join(process.cwd(), path.dirname(filename));
       await serve(parseInt(options.port), path.basename(filename), dir);
+      console.log(`Serving ${filename} on port ${options.port}.`);
+      open(`http://localhost:${options.port}`);
     } catch (err) {
-      console.error(err.message);
+      if (err.code === "EADDRINUSE") {
+        console.error("Port is in use. Try running on a different port.");
+      } else {
+        console.error("Something went wrong: ", err.message);
+      }
+      process.exit(1);
     }
   });
