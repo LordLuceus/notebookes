@@ -3,6 +3,7 @@ import { serve } from "local-api";
 import open from "open";
 import path from "path";
 
+const isProduction = process.env.NODE_ENV === "PRODUCTION";
 export const serveCommand = new Command()
   .command("serve [filename]")
   .description("Open a file for editing.")
@@ -10,7 +11,12 @@ export const serveCommand = new Command()
   .action(async (filename = "notebook.js", options: { port: string }) => {
     try {
       const dir = path.join(process.cwd(), path.dirname(filename));
-      await serve(parseInt(options.port), path.basename(filename), dir);
+      await serve(
+        parseInt(options.port),
+        path.basename(filename),
+        dir,
+        !isProduction
+      );
       console.log(`Serving ${filename} on port ${options.port}.`);
       open(`http://localhost:${options.port}`);
     } catch (err) {
