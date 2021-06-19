@@ -9,7 +9,7 @@ import {
   Direction,
   InsertCellAfterAction,
   MoveCellAction,
-  UpdateCellAction,
+  UpdateCellAction
 } from "../actions";
 import { CellTypes } from "../cell";
 
@@ -62,7 +62,7 @@ export const createBundle = (
 
     if (!bundles.initialised) {
       await esbuild.initialize({
-        wasmURL: "https://unpkg.com/esbuild-wasm@0.12.8/esbuild.wasm",
+        wasmURL: "https://unpkg.com/esbuild-wasm@0.12.9/esbuild.wasm",
       });
 
       dispatch({ type: ActionType.INITIALISE_BUNDLER });
