@@ -83,6 +83,11 @@ const reducer = produce((state: CellState, action: Action) => {
       state.error = action.payload;
 
       return state;
+    case ActionType.SAVE_CELLS_ERR:
+      state.error = action.payload;
+      state.loading = false;
+
+      return state;
     default:
       return state;
   }

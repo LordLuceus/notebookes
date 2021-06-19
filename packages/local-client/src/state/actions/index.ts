@@ -68,6 +68,11 @@ export interface FetchCellsErrAction {
   payload: string;
 }
 
+export interface SaveCellsErrAction {
+  type: ActionType.SAVE_CELLS_ERR;
+  payload: string;
+}
+
 export type Action =
   | InsertCellAfterAction
   | DeleteCellAction
@@ -78,4 +83,5 @@ export type Action =
   | InitialiseBundlerAction
   | FetchCellsAction
   | FetchCellsCompleteAction
-  | FetchCellsErrAction;
+  | FetchCellsErrAction
+  | SaveCellsErrAction;
