@@ -1,4 +1,6 @@
+import axios from "axios";
 import * as esbuild from "esbuild-wasm";
+import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "..";
 import bundle from "../../bundler";
@@ -9,9 +11,9 @@ import {
   Direction,
   InsertCellAfterAction,
   MoveCellAction,
-  UpdateCellAction
+  UpdateCellAction,
 } from "../actions";
-import { CellTypes } from "../cell";
+import { Cell, CellTypes } from "../cell";
 
 export const deleteCell = (id: string): DeleteCellAction => {
   return {
@@ -79,5 +81,22 @@ export const createBundle = (
         bundle: result,
       },
     });
+  };
+};
+
+export const fetchCells = () => {
+  return async (dispatch: Dispatch<Action>) => {
+    dispatch({ type: ActionType.FETCH_CELLS });
+
+    try {
+      const { data }: { data: Cell[] } = await axios.get("/cells");
+
+      dispatch({
+        type: ActionType.FETCH_CELLS_COMPLETE,
+        payload: data,
+      });
+    } catch (err) {
+      dispatch({ type: ActionType.FETCH_CELLS_ERR, payload: err.message });
+    }
   };
 };
