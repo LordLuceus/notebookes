@@ -1,8 +1,13 @@
 {
-  "name": "local-client",
+  "name": "@notebookes/local-client",
   "version": "0.1.0",
-  "private": true,
-  "dependencies": {
+  "files": [
+    "build"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@monaco-editor/react": "^4.2.0",
     "@testing-library/jest-dom": "^5.14.1",
@@ -11,6 +16,8 @@
     "@types/jest": "^26.0.23",
     "@types/node": "^12.20.15",
     "@types/react": "^17.0.11",
+    "@types/prettier": "2.2.1",
+    "@types/react-resizable": "^1.7.2",
     "@types/react-dom": "^17.0.8",
     "@types/react-redux": "^7.1.16",
     "@uiw/react-md-editor": "^3.3.7",
@@ -35,7 +42,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prepublishOnly": "npm run build"
   },
   "eslintConfig": {
     "extends": [
@@ -54,9 +62,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@types/prettier": "2.2.1",
-    "@types/react-resizable": "^1.7.2"
   }
 }

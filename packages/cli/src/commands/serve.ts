@@ -1,5 +1,5 @@
+import { serve } from "@notebookes/local-api";
 import { Command } from "commander";
-import { serve } from "local-api";
 import open from "open";
 import path from "path";
 
